@@ -1,4 +1,5 @@
 import http.server  # Our http server handler for http requests
+import json
 import socketserver  # Establish the TCP Socket connections
 import logging
 
@@ -9,23 +10,20 @@ class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         path = self.path
         if path.startswith('/v1/permittedUseCases'):
-            logging.info("/permittedUseCases request,\nPath: %s\nHeaders:\n%s\n\n", str(self.path), str(self.headers))
+            logging.info("/permittedUseCases request")
             self.send_response(200)
-            self.send_header('Content-type', 'text/html')
+            self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write("<b> Hello World !</b>".encode())
-            self.wfile.close()
+            self.wfile.write(json.dumps({'useCases': [{"useCase": "Activity"}]}).encode())
             return
         elif path.startswith('/iopiopiopipo'):
             self.send_response(441)
             self.end_headers()
-            self.wfile.close()
             return
         else:
             self.wfile.write("<b>The handler not found</b>".encode())
             self.send_response(404)
             self.end_headers()
-            self.wfile.close()
             return
 
     def do_POST(self):
