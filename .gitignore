@@ -1,2 +1,4 @@
 /.idea/
 /.idea/inspectionProfiles/profiles_settings.xml
+.env
+*.log
